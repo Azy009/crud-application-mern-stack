@@ -15,9 +15,9 @@ export const userApi = createApi({
           method:'GET'
         })
       }),
-    postCategory: builder.mutation({
+    postUser: builder.mutation({
         query: (data) => ({
-          url: `category`,
+          url: `user/user_creation`,
           method:'POST',
           body:data
         })
@@ -38,4 +38,4 @@ export const userApi = createApi({
   }),
 })
 
-export const { useGetAllUsersQuery, useGetSingleUserQuery,usePostCategoryMutation,usePatchUserMutation,useDeleteUserMutation } = userApi
+export const { useGetAllUsersQuery, useGetSingleUserQuery,usePostCategoryMutation,usePatchUserMutation,useDeleteUserMutation,usePostUserMutation } = userApi

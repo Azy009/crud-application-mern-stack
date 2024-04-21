@@ -1,7 +1,7 @@
 import React from 'react'
 import Loadercomp from "../../../components/Loadercomp";
 import { Field, Form, Formik } from "formik";
-import { Categoryvalidationedit } from "../Validation/Categoryvalidationedit";
+import { formvalidation } from "../Validation/formvalidation";
 import { useGetSingleUserQuery, usePatchUserMutation } from "../../../store/api/userapi";
 import { useNavigate } from 'react-router-dom';
 const Edituserform = ({id}) => {
@@ -18,15 +18,12 @@ const Edituserform = ({id}) => {
         const response = await patchuser({ data: value, id: id });
         if (!response.error) {
           if (response.data.status == "successfully update") {
-            nvg("/userlist/2");
-            window.location.reload();
+            nvg("/2");
           }
         } else {
-        //   setapiresponse(response.error.error);
         }
       } catch (error) {}
     };
-    // create category api end here
   return (
     isLoading == true ? (
         <div className="container-fuild bg-white">
@@ -55,24 +52,24 @@ const Edituserform = ({id}) => {
               city: data.data.city,
               pincode: data.data.pincode,
               status: data.data.status,
-              type: data.data.isAdmin,
             }}
-            validationSchema={Categoryvalidationedit}
+            validationSchema={formvalidation}
             onSubmit={(values) => {
-                const formdata = new FormData();
-                formdata.append("first_name", values.first_name);
-                formdata.append("last_name", values.last_name);
-                formdata.append("email", values.email);
-                formdata.append("mobile", values.mobile);
-                formdata.append("address", values.address);
-                formdata.append("country", values.country);
-                formdata.append("state", values.state);
-                formdata.append("city", values.city);
-                formdata.append("pincode", values.pincode);
-                formdata.append("isAdmin", values.type);
-                formdata.append("status", values.status);
+              let data = {
+                full_name: `${values.first_name} ${values.last_name}`,
+                first_name: values.first_name,
+                last_name: values.last_name,
+                email: values.email,
+                mobile: values.mobile,
+                address: values.address,
+                country: values.country,
+                state: values.state,
+                city: values.city,
+                pincode: values.pincode,
+                status: values.status,
+              };
                
-                UserForm(formdata);
+                UserForm(data);
             }}
           >
             {({
@@ -181,7 +178,7 @@ const Edituserform = ({id}) => {
                       <div className="col-lg-8">
                         <Field
                           name="mobile"
-                          type="text"
+                          type="number"
                           className="form-control"
                           placeholder="Mobile. No"
                           value={values.mobile}
@@ -316,7 +313,7 @@ const Edituserform = ({id}) => {
                       <div className="col-lg-8">
                         <Field
                           name="pincode"
-                          type="text"
+                          type="number"
                           className="form-control"
                           placeholder="Pincode"
                           value={values.pincode}
@@ -357,134 +354,6 @@ const Edituserform = ({id}) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-6 px-2 pt-3">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <label htmlFor="" className="form-label">
-                          Type{" "}
-                          <span style={{ color: "red" }}>*</span>
-                        </label>
-                      </div>
-                      <div className="col-lg-8">
-                        <Field
-                          as="select"
-                          name="type"
-                          className="form-select"
-                        >
-                          <option value="Admin">Admin</option>
-                          <option value="User">User</option>
-                        </Field>
-                      </div>
-                      <div className="offset-lg-4 col-lg-8">
-                        {errors.type && touched.type ? (
-                          <p style={{ color: "red" }}>{errors.type}</p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className="col-md-12 px-2 pt-3">
-                    <div className="row">
-                      <div className="col-lg-2">
-                        <label htmlFor="" className="form-label ">
-                          Parent Category{" "}
-                          <span style={{ color: "red" }}>*</span>{" "}
-                        </label>
-                      </div>
-                      <div className="col-lg-10">
-                        <Multiselect
-                          isObject={false}
-                          options={options}
-                          onSelect={(selectedList) => {
-                            setFieldValue("parent_category", selectedList);
-                          }}
-                          onRemove={(selectedList) => {
-                            setFieldValue("parent_category", selectedList);
-                          }}
-                        />
-                      </div>
-                      <div className="offset-lg-2 col-lg-10">
-                        {errors.parent_category && touched.parent_category ? (
-                          <p style={{ color: "red" }}>
-                            {errors.parent_category}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {/* <div className="col-12 pt-3">
-                    <div className="row">
-                      <div className="col-lg-12">
-                        <label htmlFor="" className="form-label ">
-                          Category Banner{" "}
-                          <span style={{ color: "red" }}>*</span>{" "}
-                        </label>
-                      </div>
-                      <div className="col-12">
-                        <div className="border d-flex justify-content-center">
-                          <button
-                            type="button"
-                            style={{ border: "none", outline: "none",width:renderbanner !== null ? '100%' : '' }}
-                          >
-                            <input
-                              type="file"
-                              name="category_image"
-                              style={{ display: "none" }}
-                              ref={imageInputRef}
-                              accept="image/*"
-                              s
-                              onChange={(event) => {
-                                setFieldValue(
-                                  "category_image",
-                                  event.currentTarget.files[0]
-                                );
-                              }}
-                            />
-                            <img
-                              src={values.category_image == null ? img3 : URL.createObjectURL(values.category_image)}
-                              alt="zxcvbnm"
-                              width="100%"
-                              height="200px"
-                              onClick={()=>{imageInputRef.current.click()}}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="col-lg-12">
-                        {errors.category_image && touched.category_image ? (
-                          <p style={{ color: "red" }}>
-                            {errors.category_image}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {/* <div className="col-12 px-2 pt-3">
-                    <div className="row">
-                      <div className="col-lg-12">
-                        <label htmlFor="" className="form-label ">
-                          Category Description{" "}
-                          <span style={{ color: "red" }}>*</span>{" "}
-                        </label>
-                      </div>
-                      <div className="col-lg-12">
-                        <JoditEditor
-                          config={config}
-                          value={values.editor}
-                          onChange={(content) =>
-                            setFieldValue("editor", content)
-                          }
-                        />
-                      </div>
-                      <div className="col-lg-12">
-                        {errors.editor && touched.editor ? (
-                          <p style={{ color: "red" }}>{errors.editor}</p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div> */}
 
                   <div
                     className="col-12 py-5 px-4 d-flex justify-content-end"
@@ -496,7 +365,7 @@ const Edituserform = ({id}) => {
                       className="btn5"
                       style={{ background: "#0e5da9" }}
                     >
-                      Save
+                      Update
                     </button>
                   </div>
                 </div>

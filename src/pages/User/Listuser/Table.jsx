@@ -20,7 +20,7 @@ const Table = () => {
       flex: 0.3,
     },
     {
-      field: "fullname",
+      field: "full_name",
       headerName: "Full Name",
       headerAlign: "center",
       align: "center",
@@ -33,19 +33,19 @@ const Table = () => {
       align: "center",
       flex: 1,
     },
-    // {
-    //   field: "country",
-    //   headerName: "Country",
-    //   headerAlign: "center",
-    //   align: "center",
-    //   flex: 0.7,
-    // },
     {
       field: "mobile",
       headerName: "Mobile No",
       headerAlign: "center",
       align: "center",
       flex: 1,
+    },
+    {
+      field: "country",
+      headerName: "Country",
+      headerAlign: "center",
+      align: "center",
+      flex: 0.7,
     },
     { field: "formatdate", headerName: "Created Date & Time", flex: 1 },
     {
@@ -120,11 +120,10 @@ const Table = () => {
             ...row,
             serialNo: index + 1,
             id: index + 1,
-            fullname: `${row.first_name} ${row.last_name}`,
             formatdate:new Date(row.createdAt.split('Time')[0]).toLocaleDateString('en-GB', {
               hour: 'numeric',
               minute: 'numeric'
-            })
+            }),
           }));
           setData(dataWithSerialNumbers);
         } catch (error) {}
@@ -132,7 +131,7 @@ const Table = () => {
       fetchData();
     }
   }, [userData]);
-  // fetch all usere api start here
+
   return (
     <div
       className="row bg-white pb-4 rounded-bottom table-responsive"

@@ -5,25 +5,26 @@ const Userlist = () => {
   const [idno, setidno] = useState(0);
   const { id } = useParams();
 
-  // show response status start here
   useEffect(() => {
+    if(id){
     setidno(id);
     function showAlert() {
       setTimeout(function () {
+        window.location.href = "/";
         setidno(0);
-      }, 5000);
+      }, 2500);
     }
     showAlert();
+  }
   }, []);
-  // show response status end here
 
   return (
-    <div className="minheight" style={{ width: "100%", minHeight: "100vh" }}>
-      <div className="dashboardcontent px-2">
+    <div className="minheight d-flex justify-content-center mt-5" style={{ width: "100%", minHeight: "100vh" }}>
+      <div className="dashboardcontent px-2" style={{ width: "75%", minHeight: "100vh" }}>
         <div className="container-fuild px-2 ">
-          <div className="row bg-white py-3 rounded-top">
+          <div className="row bg-white py-3 rounded-top" style={{padding:'20px'}}>
             {idno == 1 ? (
-              <div className="col-11 alert alert-success mt-3" role="alert">
+              <div className="col-12 alert alert-success mt-3" role="alert">
                 <h5 style={{ padding: "0px", margin: "0px" }}>
                   Successfully Added
                 </h5>
@@ -32,8 +33,9 @@ const Userlist = () => {
               <div></div>
             )}
             {idno == 2 ? (
+
               <div
-                className="col-11 alert alert-success mt-3 ml-2"
+                className="col-12 alert alert-success mt-3"
                 role="alert"
               >
                 <h5 style={{ padding: "0px", margin: "0px" }}>
@@ -43,12 +45,16 @@ const Userlist = () => {
             ) : (
               <div></div>
             )}
-            <div className="col-lg-3 d-flex justify-content-between">
-              <p className="m-0 customfont">User List</p>
-              <div className="addnew d-lg-none d-block mb-2">
+            <div className="col-12">
+      <h3 style={{textAlign:'center',color:'#006666',fontWeight:'600',textDecoration:'underline'}}>CRUD APPLICATION IN MERN STACK</h3>
+
+            </div>
+            <div className="col-lg-3 d-flex justify-content-between" style={{width:'100%'}}>
+              <p className="m-0 customfont" style={{fontSize:'24px'}}>Customer List</p>
+              <div className="addnew d-lg-flex d-block mb-2">
                 <button className="btn text-white customcolor2">
                   <NavLink
-                    to="/addremittance"
+                    to="/adduser"
                     style={{ textDecoration: "none", color: "white" }}
                   >
                     {" "}
